@@ -25,10 +25,18 @@ import {
     Calendar,
     MapPin,
     FileText,
+    Building2,
     AlertCircle,
     CheckCircle2,
     Loader2,
 } from "lucide-react";
+
+// Doit correspondre à l'enum Prisma `Departement`
+const DEPARTEMENTS = [
+    { value: "DAF", label: "DAF" },
+    { value: "DT", label: "DT" },
+    { value: "DG", label: "DG" },
+];
 
 export default function page() {
     const [vehicles, setVehicles] = useState([]);
@@ -49,6 +57,8 @@ export default function page() {
         fin_indisponibilite: "",
         itineraire: "",
         motif: "",
+        departement: "DG",
+        chef_mission: "",
     });
 
     /**
@@ -70,16 +80,7 @@ export default function page() {
                     );
                 }
 
-                /*
-                 * On ne conserve que les véhicules
-                 * qui ne sont pas bloqués.
-                 */
-                const availableVehicles = data.filter(
-                    (vehicle) =>
-                        vehicle.bloquage === "Non"
-                );
-
-                setVehicles(availableVehicles);
+                setVehicles(data);
             } catch (error) {
                 console.error(
                     "LOAD_VEHICLES_ERROR:",
@@ -243,7 +244,11 @@ export default function page() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(form),
+                    body: JSON.stringify({
+                        ...form,
+                        chef_mission:
+                            form.chef_mission.trim() || null,
+                    }),
                 }
             );
 
@@ -269,6 +274,8 @@ export default function page() {
                 fin_indisponibilite: "",
                 itineraire: "",
                 motif: "",
+                departement: "DG",
+                chef_mission: "",
             });
         } catch (error) {
             console.error(
@@ -348,122 +355,160 @@ export default function page() {
             >
                 <div className="space-y-6">
                     {/* Véhicule + Chauffeur */}
-                    <div className="grid gap-6 md:grid-cols-2">
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
                         {/* Véhicule */}
-                        <div className="space-y-2">
-                            <Label htmlFor="vehicule">
-                                Véhicule
-                            </Label>
+                        <div className="space-y-2 min-w-0">
+                            <Label htmlFor="vehicule">Véhicule</Label>
 
                             <Select
-                                value={form.id_vehicule}
-                                onValueChange={(value) =>
-                                    handleChange(
-                                        "id_vehicule",
-                                        value
-                                    )
-                                }
+                                value={form.id_vehicule ? String(form.id_vehicule) : ""}
+                                onValueChange={(value) => handleChange("id_vehicule", value)}
                                 disabled={loadingVehicles}
                             >
-                                <SelectTrigger id="vehicule">
+                                <SelectTrigger id="vehicule" className="w-full">
                                     <SelectValue
                                         placeholder={
                                             loadingVehicles
                                                 ? "Chargement..."
                                                 : "Sélectionner un véhicule"
                                         }
-                                    />
+                                    >
+                                        {(() => {
+                                            const selected = vehicles.find(
+                                                (v) => String(v.id) === String(form.id_vehicule)
+                                            );
+                                            return selected ? (
+                                                <span className="block truncate" title={`${selected.designation} — ${selected.matricule}`}>
+                                                    {selected.designation} — {selected.matricule}
+                                                </span>
+                                            ) : null;
+                                        })()}
+                                    </SelectValue>
                                 </SelectTrigger>
 
-                                <SelectContent className="w-full">
+                                <SelectContent className="max-h-72">
                                     {vehicles.length === 0 ? (
-                                        <SelectItem
-                                            value="none"
-                                            disabled
-                                        >
+                                        <SelectItem value="none" disabled>
                                             Aucun véhicule disponible
                                         </SelectItem>
                                     ) : (
-                                        vehicles.map(
-                                            (vehicle) => (
-                                                <SelectItem
-                                                    key={
-                                                        vehicle.id
-                                                    }
-                                                    value={
-                                                        vehicle.id
-                                                    }
-                                                >
-                                                    {
-                                                        vehicle.designation
-                                                    }{" "}
-                                                    —{" "}
-                                                    {
-                                                        vehicle.matricule
-                                                    }
-                                                </SelectItem>
-                                            )
-                                        )
+                                        vehicles.map((vehicle) => (
+                                            <SelectItem key={String(vehicle.id)} value={String(vehicle.id)}>
+                                                <span className="truncate">
+                                                    {vehicle.designation} — {vehicle.matricule}
+                                                </span>
+                                            </SelectItem>
+                                        ))
                                     )}
                                 </SelectContent>
                             </Select>
                         </div>
 
                         {/* Chauffeur */}
-                        <div className="space-y-2">
-                            <Label htmlFor="chauffeur">
-                                Chauffeur
-                            </Label>
+                        <div className="space-y-2 min-w-0">
+                            <Label htmlFor="chauffeur">Chauffeur</Label>
 
                             <Select
-                                value={form.chauffeurId}
-                                onValueChange={(value) =>
-                                    handleChange(
-                                        "chauffeurId",
-                                        value
-                                    )
-                                }
+                                value={form.chauffeurId ? String(form.chauffeurId) : ""}
+                                onValueChange={(value) => handleChange("chauffeurId", value)}
                                 disabled={loadingDrivers}
                             >
-                                <SelectTrigger id="chauffeur">
+                                <SelectTrigger id="chauffeur" className="w-full">
                                     <SelectValue
                                         placeholder={
                                             loadingDrivers
                                                 ? "Chargement..."
                                                 : "Sélectionner un chauffeur"
                                         }
-                                    />
+                                    >
+                                        {(() => {
+                                            const selected = drivers.find(
+                                                (d) => String(d.id) === String(form.chauffeurId)
+                                            );
+                                            return selected ? (
+                                                <span className="block truncate" title={`${selected.nom} ${selected.prenom}`}>
+                                                    {selected.nom} {selected.prenom}
+                                                </span>
+                                            ) : null;
+                                        })()}
+                                    </SelectValue>
                                 </SelectTrigger>
 
-                                <SelectContent className="w-full">
+                                <SelectContent className="max-h-72">
                                     {drivers.length === 0 ? (
-                                        <SelectItem
-                                            value="none"
-                                            disabled
-                                        >
+                                        <SelectItem value="none" disabled>
                                             Aucun chauffeur disponible
                                         </SelectItem>
                                     ) : (
-                                        drivers.map(
-                                            (driver) => (
-                                                <SelectItem
-                                                    key={
-                                                        driver.id
-                                                    }
-                                                    value={
-                                                        driver.id
-                                                    }
-                                                >
-                                                    {driver.nom}{" "}
-                                                    {
-                                                        driver.prenom
-                                                    }
-                                                </SelectItem>
-                                            )
-                                        )
+                                        drivers.map((driver) => (
+                                            <SelectItem key={String(driver.id)} value={String(driver.id)}>
+                                                <span className="truncate">
+                                                    {driver.nom} {driver.prenom}
+                                                </span>
+                                            </SelectItem>
+                                        ))
                                     )}
                                 </SelectContent>
                             </Select>
+                        </div>
+                    </div>
+
+                    {/* Département + Chef de mission */}
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+                        {/* Département */}
+                        <div className="space-y-2 min-w-0">
+                            <Label htmlFor="departement">
+                                Département
+                            </Label>
+
+                            <Select
+                                value={form.departement}
+                                onValueChange={(value) =>
+                                    handleChange("departement", value)
+                                }
+                            >
+                                <SelectTrigger id="departement" className="w-full">
+                                    <Building2 className="mr-2 h-4 w-4 text-muted-foreground" />
+
+                                    <SelectValue placeholder="Sélectionner un département" />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    {DEPARTEMENTS.map((dep) => (
+                                        <SelectItem key={dep.value} value={dep.value}>
+                                            {dep.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Chef de mission */}
+                        <div className="space-y-2 min-w-0">
+                            <Label htmlFor="chef_mission">
+                                Chef de mission{" "}
+                                <span className="text-muted-foreground">
+                                    (optionnel)
+                                </span>
+                            </Label>
+
+                            <div className="relative">
+                                <UserRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+
+                                <Input
+                                    id="chef_mission"
+                                    type="text"
+                                    value={form.chef_mission}
+                                    onChange={(event) =>
+                                        handleChange(
+                                            "chef_mission",
+                                            event.target.value
+                                        )
+                                    }
+                                    placeholder="Nom du chef de mission"
+                                    className="pl-9"
+                                />
+                            </div>
                         </div>
                     </div>
 

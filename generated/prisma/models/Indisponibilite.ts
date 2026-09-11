@@ -30,6 +30,8 @@ export type IndisponibiliteMinAggregateOutputType = {
   chauffeurId: string | null
   debut_indisponibilite: Date | null
   fin_indisponibilite: Date | null
+  departement: $Enums.Departement | null
+  chef_mission: string | null
   itineraire: string | null
   motif: string | null
 }
@@ -40,6 +42,8 @@ export type IndisponibiliteMaxAggregateOutputType = {
   chauffeurId: string | null
   debut_indisponibilite: Date | null
   fin_indisponibilite: Date | null
+  departement: $Enums.Departement | null
+  chef_mission: string | null
   itineraire: string | null
   motif: string | null
 }
@@ -50,6 +54,8 @@ export type IndisponibiliteCountAggregateOutputType = {
   chauffeurId: number
   debut_indisponibilite: number
   fin_indisponibilite: number
+  departement: number
+  chef_mission: number
   itineraire: number
   motif: number
   _all: number
@@ -62,6 +68,8 @@ export type IndisponibiliteMinAggregateInputType = {
   chauffeurId?: true
   debut_indisponibilite?: true
   fin_indisponibilite?: true
+  departement?: true
+  chef_mission?: true
   itineraire?: true
   motif?: true
 }
@@ -72,6 +80,8 @@ export type IndisponibiliteMaxAggregateInputType = {
   chauffeurId?: true
   debut_indisponibilite?: true
   fin_indisponibilite?: true
+  departement?: true
+  chef_mission?: true
   itineraire?: true
   motif?: true
 }
@@ -82,6 +92,8 @@ export type IndisponibiliteCountAggregateInputType = {
   chauffeurId?: true
   debut_indisponibilite?: true
   fin_indisponibilite?: true
+  departement?: true
+  chef_mission?: true
   itineraire?: true
   motif?: true
   _all?: true
@@ -165,6 +177,8 @@ export type IndisponibiliteGroupByOutputType = {
   chauffeurId: string
   debut_indisponibilite: Date
   fin_indisponibilite: Date
+  departement: $Enums.Departement | null
+  chef_mission: string | null
   itineraire: string
   motif: string
   _count: IndisponibiliteCountAggregateOutputType | null
@@ -196,6 +210,8 @@ export type IndisponibiliteWhereInput = {
   chauffeurId?: Prisma.StringFilter<"Indisponibilite"> | string
   debut_indisponibilite?: Prisma.DateTimeFilter<"Indisponibilite"> | Date | string
   fin_indisponibilite?: Prisma.DateTimeFilter<"Indisponibilite"> | Date | string
+  departement?: Prisma.EnumDepartementNullableFilter<"Indisponibilite"> | $Enums.Departement | null
+  chef_mission?: Prisma.StringNullableFilter<"Indisponibilite"> | string | null
   itineraire?: Prisma.StringFilter<"Indisponibilite"> | string
   motif?: Prisma.StringFilter<"Indisponibilite"> | string
   vehicule?: Prisma.XOR<Prisma.VehiculeScalarRelationFilter, Prisma.VehiculeWhereInput>
@@ -208,6 +224,8 @@ export type IndisponibiliteOrderByWithRelationInput = {
   chauffeurId?: Prisma.SortOrder
   debut_indisponibilite?: Prisma.SortOrder
   fin_indisponibilite?: Prisma.SortOrder
+  departement?: Prisma.SortOrderInput | Prisma.SortOrder
+  chef_mission?: Prisma.SortOrderInput | Prisma.SortOrder
   itineraire?: Prisma.SortOrder
   motif?: Prisma.SortOrder
   vehicule?: Prisma.VehiculeOrderByWithRelationInput
@@ -223,6 +241,8 @@ export type IndisponibiliteWhereUniqueInput = Prisma.AtLeast<{
   chauffeurId?: Prisma.StringFilter<"Indisponibilite"> | string
   debut_indisponibilite?: Prisma.DateTimeFilter<"Indisponibilite"> | Date | string
   fin_indisponibilite?: Prisma.DateTimeFilter<"Indisponibilite"> | Date | string
+  departement?: Prisma.EnumDepartementNullableFilter<"Indisponibilite"> | $Enums.Departement | null
+  chef_mission?: Prisma.StringNullableFilter<"Indisponibilite"> | string | null
   itineraire?: Prisma.StringFilter<"Indisponibilite"> | string
   motif?: Prisma.StringFilter<"Indisponibilite"> | string
   vehicule?: Prisma.XOR<Prisma.VehiculeScalarRelationFilter, Prisma.VehiculeWhereInput>
@@ -235,6 +255,8 @@ export type IndisponibiliteOrderByWithAggregationInput = {
   chauffeurId?: Prisma.SortOrder
   debut_indisponibilite?: Prisma.SortOrder
   fin_indisponibilite?: Prisma.SortOrder
+  departement?: Prisma.SortOrderInput | Prisma.SortOrder
+  chef_mission?: Prisma.SortOrderInput | Prisma.SortOrder
   itineraire?: Prisma.SortOrder
   motif?: Prisma.SortOrder
   _count?: Prisma.IndisponibiliteCountOrderByAggregateInput
@@ -251,6 +273,8 @@ export type IndisponibiliteScalarWhereWithAggregatesInput = {
   chauffeurId?: Prisma.StringWithAggregatesFilter<"Indisponibilite"> | string
   debut_indisponibilite?: Prisma.DateTimeWithAggregatesFilter<"Indisponibilite"> | Date | string
   fin_indisponibilite?: Prisma.DateTimeWithAggregatesFilter<"Indisponibilite"> | Date | string
+  departement?: Prisma.EnumDepartementNullableWithAggregatesFilter<"Indisponibilite"> | $Enums.Departement | null
+  chef_mission?: Prisma.StringNullableWithAggregatesFilter<"Indisponibilite"> | string | null
   itineraire?: Prisma.StringWithAggregatesFilter<"Indisponibilite"> | string
   motif?: Prisma.StringWithAggregatesFilter<"Indisponibilite"> | string
 }
@@ -259,6 +283,8 @@ export type IndisponibiliteCreateInput = {
   id?: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
   vehicule: Prisma.VehiculeCreateNestedOneWithoutIndisponibilitesInput
@@ -271,6 +297,8 @@ export type IndisponibiliteUncheckedCreateInput = {
   chauffeurId: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
 }
@@ -279,6 +307,8 @@ export type IndisponibiliteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
   vehicule?: Prisma.VehiculeUpdateOneRequiredWithoutIndisponibilitesNestedInput
@@ -291,6 +321,8 @@ export type IndisponibiliteUncheckedUpdateInput = {
   chauffeurId?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -301,6 +333,8 @@ export type IndisponibiliteCreateManyInput = {
   chauffeurId: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
 }
@@ -309,6 +343,8 @@ export type IndisponibiliteUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -319,6 +355,8 @@ export type IndisponibiliteUncheckedUpdateManyInput = {
   chauffeurId?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -339,6 +377,8 @@ export type IndisponibiliteCountOrderByAggregateInput = {
   chauffeurId?: Prisma.SortOrder
   debut_indisponibilite?: Prisma.SortOrder
   fin_indisponibilite?: Prisma.SortOrder
+  departement?: Prisma.SortOrder
+  chef_mission?: Prisma.SortOrder
   itineraire?: Prisma.SortOrder
   motif?: Prisma.SortOrder
 }
@@ -349,6 +389,8 @@ export type IndisponibiliteMaxOrderByAggregateInput = {
   chauffeurId?: Prisma.SortOrder
   debut_indisponibilite?: Prisma.SortOrder
   fin_indisponibilite?: Prisma.SortOrder
+  departement?: Prisma.SortOrder
+  chef_mission?: Prisma.SortOrder
   itineraire?: Prisma.SortOrder
   motif?: Prisma.SortOrder
 }
@@ -359,6 +401,8 @@ export type IndisponibiliteMinOrderByAggregateInput = {
   chauffeurId?: Prisma.SortOrder
   debut_indisponibilite?: Prisma.SortOrder
   fin_indisponibilite?: Prisma.SortOrder
+  departement?: Prisma.SortOrder
+  chef_mission?: Prisma.SortOrder
   itineraire?: Prisma.SortOrder
   motif?: Prisma.SortOrder
 }
@@ -451,10 +495,20 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type NullableEnumDepartementFieldUpdateOperationsInput = {
+  set?: $Enums.Departement | null
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type IndisponibiliteCreateWithoutVehiculeInput = {
   id?: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
   chauffeur: Prisma.ChauffeurCreateNestedOneWithoutIndisponibilitesInput
@@ -465,6 +519,8 @@ export type IndisponibiliteUncheckedCreateWithoutVehiculeInput = {
   chauffeurId: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
 }
@@ -476,6 +532,7 @@ export type IndisponibiliteCreateOrConnectWithoutVehiculeInput = {
 
 export type IndisponibiliteCreateManyVehiculeInputEnvelope = {
   data: Prisma.IndisponibiliteCreateManyVehiculeInput | Prisma.IndisponibiliteCreateManyVehiculeInput[]
+  skipDuplicates?: boolean
 }
 
 export type IndisponibiliteUpsertWithWhereUniqueWithoutVehiculeInput = {
@@ -503,6 +560,8 @@ export type IndisponibiliteScalarWhereInput = {
   chauffeurId?: Prisma.StringFilter<"Indisponibilite"> | string
   debut_indisponibilite?: Prisma.DateTimeFilter<"Indisponibilite"> | Date | string
   fin_indisponibilite?: Prisma.DateTimeFilter<"Indisponibilite"> | Date | string
+  departement?: Prisma.EnumDepartementNullableFilter<"Indisponibilite"> | $Enums.Departement | null
+  chef_mission?: Prisma.StringNullableFilter<"Indisponibilite"> | string | null
   itineraire?: Prisma.StringFilter<"Indisponibilite"> | string
   motif?: Prisma.StringFilter<"Indisponibilite"> | string
 }
@@ -511,6 +570,8 @@ export type IndisponibiliteCreateWithoutChauffeurInput = {
   id?: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
   vehicule: Prisma.VehiculeCreateNestedOneWithoutIndisponibilitesInput
@@ -521,6 +582,8 @@ export type IndisponibiliteUncheckedCreateWithoutChauffeurInput = {
   id_vehicule: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
 }
@@ -532,6 +595,7 @@ export type IndisponibiliteCreateOrConnectWithoutChauffeurInput = {
 
 export type IndisponibiliteCreateManyChauffeurInputEnvelope = {
   data: Prisma.IndisponibiliteCreateManyChauffeurInput | Prisma.IndisponibiliteCreateManyChauffeurInput[]
+  skipDuplicates?: boolean
 }
 
 export type IndisponibiliteUpsertWithWhereUniqueWithoutChauffeurInput = {
@@ -555,6 +619,8 @@ export type IndisponibiliteCreateManyVehiculeInput = {
   chauffeurId: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
 }
@@ -563,6 +629,8 @@ export type IndisponibiliteUpdateWithoutVehiculeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
   chauffeur?: Prisma.ChauffeurUpdateOneRequiredWithoutIndisponibilitesNestedInput
@@ -573,6 +641,8 @@ export type IndisponibiliteUncheckedUpdateWithoutVehiculeInput = {
   chauffeurId?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -582,6 +652,8 @@ export type IndisponibiliteUncheckedUpdateManyWithoutVehiculeInput = {
   chauffeurId?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -591,6 +663,8 @@ export type IndisponibiliteCreateManyChauffeurInput = {
   id_vehicule: string
   debut_indisponibilite: Date | string
   fin_indisponibilite: Date | string
+  departement?: $Enums.Departement | null
+  chef_mission?: string | null
   itineraire: string
   motif: string
 }
@@ -599,6 +673,8 @@ export type IndisponibiliteUpdateWithoutChauffeurInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
   vehicule?: Prisma.VehiculeUpdateOneRequiredWithoutIndisponibilitesNestedInput
@@ -609,6 +685,8 @@ export type IndisponibiliteUncheckedUpdateWithoutChauffeurInput = {
   id_vehicule?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -618,6 +696,8 @@ export type IndisponibiliteUncheckedUpdateManyWithoutChauffeurInput = {
   id_vehicule?: Prisma.StringFieldUpdateOperationsInput | string
   debut_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fin_indisponibilite?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departement?: Prisma.NullableEnumDepartementFieldUpdateOperationsInput | $Enums.Departement | null
+  chef_mission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   itineraire?: Prisma.StringFieldUpdateOperationsInput | string
   motif?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -630,6 +710,8 @@ export type IndisponibiliteSelect<ExtArgs extends runtime.Types.Extensions.Inter
   chauffeurId?: boolean
   debut_indisponibilite?: boolean
   fin_indisponibilite?: boolean
+  departement?: boolean
+  chef_mission?: boolean
   itineraire?: boolean
   motif?: boolean
   vehicule?: boolean | Prisma.VehiculeDefaultArgs<ExtArgs>
@@ -642,6 +724,8 @@ export type IndisponibiliteSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   chauffeurId?: boolean
   debut_indisponibilite?: boolean
   fin_indisponibilite?: boolean
+  departement?: boolean
+  chef_mission?: boolean
   itineraire?: boolean
   motif?: boolean
   vehicule?: boolean | Prisma.VehiculeDefaultArgs<ExtArgs>
@@ -654,6 +738,8 @@ export type IndisponibiliteSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   chauffeurId?: boolean
   debut_indisponibilite?: boolean
   fin_indisponibilite?: boolean
+  departement?: boolean
+  chef_mission?: boolean
   itineraire?: boolean
   motif?: boolean
   vehicule?: boolean | Prisma.VehiculeDefaultArgs<ExtArgs>
@@ -666,11 +752,13 @@ export type IndisponibiliteSelectScalar = {
   chauffeurId?: boolean
   debut_indisponibilite?: boolean
   fin_indisponibilite?: boolean
+  departement?: boolean
+  chef_mission?: boolean
   itineraire?: boolean
   motif?: boolean
 }
 
-export type IndisponibiliteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_vehicule" | "chauffeurId" | "debut_indisponibilite" | "fin_indisponibilite" | "itineraire" | "motif", ExtArgs["result"]["indisponibilite"]>
+export type IndisponibiliteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_vehicule" | "chauffeurId" | "debut_indisponibilite" | "fin_indisponibilite" | "departement" | "chef_mission" | "itineraire" | "motif", ExtArgs["result"]["indisponibilite"]>
 export type IndisponibiliteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vehicule?: boolean | Prisma.VehiculeDefaultArgs<ExtArgs>
   chauffeur?: boolean | Prisma.ChauffeurDefaultArgs<ExtArgs>
@@ -696,6 +784,8 @@ export type $IndisponibilitePayload<ExtArgs extends runtime.Types.Extensions.Int
     chauffeurId: string
     debut_indisponibilite: Date
     fin_indisponibilite: Date
+    departement: $Enums.Departement | null
+    chef_mission: string | null
     itineraire: string
     motif: string
   }, ExtArgs["result"]["indisponibilite"]>
@@ -1128,6 +1218,8 @@ export interface IndisponibiliteFieldRefs {
   readonly chauffeurId: Prisma.FieldRef<"Indisponibilite", 'String'>
   readonly debut_indisponibilite: Prisma.FieldRef<"Indisponibilite", 'DateTime'>
   readonly fin_indisponibilite: Prisma.FieldRef<"Indisponibilite", 'DateTime'>
+  readonly departement: Prisma.FieldRef<"Indisponibilite", 'Departement'>
+  readonly chef_mission: Prisma.FieldRef<"Indisponibilite", 'String'>
   readonly itineraire: Prisma.FieldRef<"Indisponibilite", 'String'>
   readonly motif: Prisma.FieldRef<"Indisponibilite", 'String'>
 }
@@ -1364,6 +1456,7 @@ export type IndisponibiliteCreateManyArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many Indisponibilites.
    */
   data: Prisma.IndisponibiliteCreateManyInput | Prisma.IndisponibiliteCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1382,6 +1475,7 @@ export type IndisponibiliteCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    * The data used to create many Indisponibilites.
    */
   data: Prisma.IndisponibiliteCreateManyInput | Prisma.IndisponibiliteCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

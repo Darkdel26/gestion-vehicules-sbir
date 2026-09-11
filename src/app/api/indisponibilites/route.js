@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// Doit correspondre à l'enum Prisma `Departement`
+const DEPARTEMENTS_VALIDES = ["DAF", "DT", "DG"];
+
 export async function POST(request) {
     try {
         const body = await request.json();
@@ -12,6 +15,8 @@ export async function POST(request) {
             fin_indisponibilite,
             itineraire,
             motif,
+            departement,
+            chef_mission,
         } = body;
 
         // ==========================================
@@ -30,21 +35,40 @@ export async function POST(request) {
                 {
                     success: false,
                     message:
-                        "Tous les champs sont obligatoires.",
+                        "Tous les champs obligatoires doivent être renseignés.",
                 },
                 { status: 400 }
             );
         }
 
         // ==========================================
-        // 2. Conversion des dates
+        // 2. Vérification du département
+        // ==========================================
+
+        if (
+            departement !== undefined &&
+            departement !== null &&
+            !DEPARTEMENTS_VALIDES.includes(departement)
+        ) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: `Le département est invalide. Valeurs acceptées : ${DEPARTEMENTS_VALIDES.join(
+                        ", "
+                    )}.`,
+                },
+                { status: 400 }
+            );
+        }
+
+        // ==========================================
+        // 3. Conversion et validation des dates
         // ==========================================
 
         const debut = new Date(debut_indisponibilite);
         const fin = new Date(fin_indisponibilite);
         const maintenant = new Date();
 
-        // Vérification du format des dates
         if (
             Number.isNaN(debut.getTime()) ||
             Number.isNaN(fin.getTime())
@@ -58,24 +82,16 @@ export async function POST(request) {
             );
         }
 
-        // ==========================================
-        // 3. Les dates ne doivent pas être dans le passé
-        // ==========================================
-
-        if (debut < maintenant || fin < maintenant) {
+        if (debut < maintenant) {
             return NextResponse.json(
                 {
                     success: false,
                     message:
-                        "Les dates d'affectation ne peuvent pas être dans le passé.",
+                        "La date de début ne peut pas être dans le passé.",
                 },
                 { status: 400 }
             );
         }
-
-        // ==========================================
-        // 4. La fin doit être après le début
-        // ==========================================
 
         if (fin <= debut) {
             return NextResponse.json(
@@ -89,7 +105,7 @@ export async function POST(request) {
         }
 
         // ==========================================
-        // 5. Vérification du véhicule
+        // 4. Vérification du véhicule
         // ==========================================
 
         const vehicule = await prisma.vehicule.findUnique({
@@ -109,37 +125,7 @@ export async function POST(request) {
         }
 
         // ==========================================
-        // 6. Vérification du blocage du véhicule
-        // ==========================================
-
-        if (vehicule.bloquage === "Oui") {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message:
-                        "Ce véhicule est bloqué et ne peut pas être affecté.",
-                },
-                { status: 400 }
-            );
-        }
-
-        // ==========================================
-        // 7. Vérification de l'état du véhicule
-        // ==========================================
-
-        if (vehicule.etat === "Indisponible") {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message:
-                        "Ce véhicule ne sera pas disponible dans la prériode sélectionnée",
-                },
-                { status: 400 }
-            );
-        }
-
-        // ==========================================
-        // 8. Vérification du chauffeur
+        // 5. Vérification du chauffeur
         // ==========================================
 
         const chauffeur = await prisma.chauffeur.findUnique({
@@ -159,43 +145,29 @@ export async function POST(request) {
         }
 
         // ==========================================
-        // 9. Vérification de l'état du chauffeur
-        // ==========================================
-
-        if (chauffeur.etat === "Indisponible") {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message:
-                        "Ce chauffeur est actuellement indisponible.",
-                },
-                { status: 400 }
-            );
-        }
-
-        // ==========================================
-        // 10. Vérification des indisponibilités
-        //     du véhicule
-        //
-        // Deux périodes se chevauchent si :
-        //
-        // nouvelleDébut < ancienneFin
-        // ET
-        // nouvelleFin > ancienneDébut
+        // 6. Vérification de l'indisponibilité
+        //    du véhicule
         // ==========================================
 
         const conflitVehicule =
             await prisma.indisponibilite.findFirst({
                 where: {
-                    id_vehicule: id_vehicule,
+                    id_vehicule,
 
+                    // Chevauchement :
+                    // début existant < fin demandée
                     debut_indisponibilite: {
                         lt: fin,
                     },
 
+                    // fin existante > début demandé
                     fin_indisponibilite: {
                         gt: debut,
                     },
+                },
+
+                orderBy: {
+                    fin_indisponibilite: "asc",
                 },
             });
 
@@ -203,11 +175,14 @@ export async function POST(request) {
             return NextResponse.json(
                 {
                     success: false,
-                    message:
-                        "Le véhicule est déjà affecté pendant cette période.",
+                    message: `Le véhicule est déjà affecté pendant cette période. Il sera disponible à partir du ${conflitVehicule.fin_indisponibilite.toLocaleString(
+                        "fr-FR"
+                    )}.`,
+
                     conflit: {
                         debut:
                             conflitVehicule.debut_indisponibilite,
+
                         fin:
                             conflitVehicule.fin_indisponibilite,
                     },
@@ -217,14 +192,14 @@ export async function POST(request) {
         }
 
         // ==========================================
-        // 11. Vérification des indisponibilités
-        //     du chauffeur
+        // 7. Vérification de l'indisponibilité
+        //    du chauffeur sélectionné
         // ==========================================
 
         const conflitChauffeur =
             await prisma.indisponibilite.findFirst({
                 where: {
-                    chauffeurId: chauffeurId,
+                    chauffeurId,
 
                     debut_indisponibilite: {
                         lt: fin,
@@ -234,17 +209,24 @@ export async function POST(request) {
                         gt: debut,
                     },
                 },
+
+                orderBy: {
+                    fin_indisponibilite: "asc",
+                },
             });
 
         if (conflitChauffeur) {
             return NextResponse.json(
                 {
                     success: false,
-                    message:
-                        "Ce chauffeur est déjà affecté pendant cette période.",
+                    message: `Ce chauffeur est déjà affecté pendant cette période. Il sera disponible à partir du ${conflitChauffeur.fin_indisponibilite.toLocaleString(
+                        "fr-FR"
+                    )}.`,
+
                     conflit: {
                         debut:
                             conflitChauffeur.debut_indisponibilite,
+
                         fin:
                             conflitChauffeur.fin_indisponibilite,
                     },
@@ -254,28 +236,142 @@ export async function POST(request) {
         }
 
         // ==========================================
-        // 12. Création de l'affectation
+        // 8. Recherche des chauffeurs déjà
+        //    indisponibles sur cette période
+        // ==========================================
+
+        const chauffeursIndisponibles =
+            await prisma.indisponibilite.findMany({
+                where: {
+                    debut_indisponibilite: {
+                        lt: fin,
+                    },
+
+                    fin_indisponibilite: {
+                        gt: debut,
+                    },
+                },
+
+                select: {
+                    chauffeurId: true,
+                },
+
+                // Un chauffeur ne doit compter qu'une seule fois
+                // même s'il possède plusieurs indisponibilités
+                // qui chevauchent la période.
+                distinct: ["chauffeurId"],
+            });
+
+        const nombreChauffeursIndisponibles =
+            chauffeursIndisponibles.length;
+
+        // ==========================================
+        // 9. Nombre total de chauffeurs
+        // ==========================================
+
+        const totalChauffeurs =
+            await prisma.chauffeur.count();
+
+        const nombreChauffeursDisponibles =
+            totalChauffeurs -
+            nombreChauffeursIndisponibles;
+
+        // ==========================================
+        // 10. RÈGLE MÉTIER
+        //
+        // 0 chauffeur indisponible
+        // => DAF / DT / DG autorisés
+        //
+        // 1 chauffeur indisponible
+        // => DAF / DT / DG autorisés
+        //
+        // 2 chauffeurs indisponibles ou plus
+        // => DG uniquement
+        //
+        // Donc :
+        //
+        // >= 2 + DAF => REFUS
+        // >= 2 + DT  => REFUS
+        // >= 2 + DG  => AUTORISÉ
+        // ==========================================
+
+        if (
+            nombreChauffeursIndisponibles >= 2 &&
+            departement !== "DG"
+        ) {
+            return NextResponse.json(
+                {
+                    success: false,
+
+                    message:
+                        `Allocation impossible : ${nombreChauffeursIndisponibles} chauffeurs sont déjà indisponibles pendant cette période. Une nouvelle allocation est uniquement autorisée pour le département DG.`,
+
+                    details: {
+                        total_chauffeurs:
+                            totalChauffeurs,
+
+                        chauffeurs_indisponibles:
+                            nombreChauffeursIndisponibles,
+
+                        chauffeurs_disponibles:
+                            nombreChauffeursDisponibles,
+
+                        departement:
+
+                            departement,
+
+                        departement_autorise:
+                            "DG",
+                    },
+                },
+                { status: 409 }
+            );
+        }
+
+        // ==========================================
+        // 11. Création de l'indisponibilité
         // ==========================================
 
         const indisponibilite =
             await prisma.indisponibilite.create({
                 data: {
                     id_vehicule,
+
                     chauffeurId,
+
                     debut_indisponibilite: debut,
+
                     fin_indisponibilite: fin,
-                    itineraire: itineraire.trim(),
-                    motif: motif.trim(),
+
+                    itineraire:
+                        itineraire.trim(),
+
+                    motif:
+                        motif.trim(),
+
+                    departement:
+                        departement !== undefined &&
+                            departement !== null
+                            ? departement
+                            : null,
+
+                    chef_mission:
+                        chef_mission !== undefined &&
+                            chef_mission !== null &&
+                            chef_mission.trim() !== ""
+                            ? chef_mission.trim()
+                            : null,
                 },
 
                 include: {
                     vehicule: true,
+
                     chauffeur: true,
                 },
             });
 
         // ==========================================
-        // 13. Mise à jour de l'état du véhicule
+        // 12. Mise à jour de l'état du véhicule
         // ==========================================
 
         await prisma.vehicule.update({
@@ -289,7 +385,7 @@ export async function POST(request) {
         });
 
         // ==========================================
-        // 14. Mise à jour de l'état du chauffeur
+        // 13. Mise à jour de l'état du chauffeur
         // ==========================================
 
         await prisma.chauffeur.update({
@@ -302,11 +398,17 @@ export async function POST(request) {
             },
         });
 
+        // ==========================================
+        // 14. Réponse
+        // ==========================================
+
         return NextResponse.json(
             {
                 success: true,
+
                 message:
                     "Le véhicule a été affecté avec succès.",
+
                 data: indisponibilite,
             },
             { status: 201 }
@@ -320,6 +422,7 @@ export async function POST(request) {
         return NextResponse.json(
             {
                 success: false,
+
                 message:
                     "Une erreur est survenue lors de l'affectation du véhicule.",
             },

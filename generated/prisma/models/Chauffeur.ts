@@ -1098,6 +1098,7 @@ export type ChauffeurCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many Chauffeurs.
    */
   data: Prisma.ChauffeurCreateManyInput | Prisma.ChauffeurCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1116,6 +1117,7 @@ export type ChauffeurCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many Chauffeurs.
    */
   data: Prisma.ChauffeurCreateManyInput | Prisma.ChauffeurCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

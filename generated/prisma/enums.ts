@@ -31,3 +31,12 @@ export const EtatChauffeur = {
 } as const
 
 export type EtatChauffeur = (typeof EtatChauffeur)[keyof typeof EtatChauffeur]
+
+
+export const Departement = {
+  DAF: 'DAF',
+  DT: 'DT',
+  DG: 'DG'
+} as const
+
+export type Departement = (typeof Departement)[keyof typeof Departement]

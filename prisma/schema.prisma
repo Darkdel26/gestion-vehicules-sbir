@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
 }
 
 enum EtatVehicule {
@@ -20,6 +20,12 @@ enum BloquageVehicule {
 enum EtatChauffeur {
     Disponible
     Indisponible
+}
+
+enum Departement {
+    DAF
+    DT
+    DG
 }
 
 model Admin {
@@ -52,6 +58,8 @@ model Indisponibilite {
     chauffeurId           String
     debut_indisponibilite DateTime
     fin_indisponibilite   DateTime
+    departement           Departement? @default(DG)
+    chef_mission          String?
     itineraire            String
     motif                 String
 

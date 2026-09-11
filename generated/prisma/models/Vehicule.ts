@@ -1134,6 +1134,7 @@ export type VehiculeCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data used to create many Vehicules.
    */
   data: Prisma.VehiculeCreateManyInput | Prisma.VehiculeCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1152,6 +1153,7 @@ export type VehiculeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * The data used to create many Vehicules.
    */
   data: Prisma.VehiculeCreateManyInput | Prisma.VehiculeCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

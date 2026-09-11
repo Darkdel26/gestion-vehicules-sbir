@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 import { prisma } from "@/lib/prisma";
 
-export async function GET(request, { params }) {
+export async function DELETE(request, { params }) {
     try {
         // Vérification de la session admin
         const cookieStore = await cookies();
@@ -29,7 +29,7 @@ export async function GET(request, { params }) {
             );
         }
 
-        const { id } = await params;
+        const { id, indisponibiliteId } = await params;
 
         // Vérification du véhicule
         const vehicule = await prisma.vehicule.findUnique({
@@ -45,35 +45,44 @@ export async function GET(request, { params }) {
             );
         }
 
-        // Historique
-        const indisponibilites =
-            await prisma.indisponibilite.findMany({
+        // Recherche de l'historique
+        const indisponibilite =
+            await prisma.indisponibilite.findFirst({
                 where: {
+                    id: indisponibiliteId,
                     id_vehicule: id,
-                },
-                orderBy: {
-                    debut_indisponibilite: "desc",
-                },
-                include: {
-                    chauffeur: {
-                        select: {
-                            nom: true,
-                            prenom: true,
-                        },
-                    },
                 },
             });
 
-        return NextResponse.json(indisponibilites);
+        if (!indisponibilite) {
+            return NextResponse.json(
+                {
+                    error: "Historique introuvable pour ce véhicule",
+                },
+                { status: 404 }
+            );
+        }
+
+        // Suppression
+        await prisma.indisponibilite.delete({
+            where: {
+                id: indisponibiliteId,
+            },
+        });
+
+        return NextResponse.json({
+            success: true,
+            message: "Historique supprimé avec succès",
+        });
     } catch (error) {
         console.error(
-            "GET_INDISPONIBILITES_ERROR:",
+            "DELETE_INDISPONIBILITE_ERROR:",
             error
         );
 
         return NextResponse.json(
             {
-                error: "Impossible de récupérer l'historique",
+                error: "Impossible de supprimer cet historique",
             },
             { status: 500 }
         );
