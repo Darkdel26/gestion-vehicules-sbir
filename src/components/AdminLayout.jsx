@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { ArrowLeftRight, Car, LogOut, Monitor, Moon, Sun, UserRound } from "lucide-react";
+import { ArrowLeftRight, Car, ClipboardList, LogOut, Monitor, Moon, Sun, UserRound } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
@@ -22,6 +22,11 @@ export default function AdminLayout({ children }) {
             title: "Affectations",
             url: "/vehicle-allocation",
             icon: ArrowLeftRight,
+        },
+        {
+            title: "Demandes",
+            url: "/requests",
+            icon: ClipboardList,
         },
     ];
 

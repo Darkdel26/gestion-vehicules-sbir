@@ -401,7 +401,8 @@ export const ModelName = {
   Vehicule: 'Vehicule',
   Chauffeur: 'Chauffeur',
   Indisponibilite: 'Indisponibilite',
-  Session: 'Session'
+  Session: 'Session',
+  Demande: 'Demande'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "admin" | "vehicule" | "chauffeur" | "indisponibilite" | "session"
+    modelProps: "admin" | "vehicule" | "chauffeur" | "indisponibilite" | "session" | "demande"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +792,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Demande: {
+      payload: Prisma.$DemandePayload<ExtArgs>
+      fields: Prisma.DemandeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DemandeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DemandeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>
+        }
+        findFirst: {
+          args: Prisma.DemandeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DemandeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>
+        }
+        findMany: {
+          args: Prisma.DemandeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>[]
+        }
+        create: {
+          args: Prisma.DemandeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>
+        }
+        createMany: {
+          args: Prisma.DemandeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DemandeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>[]
+        }
+        delete: {
+          args: Prisma.DemandeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>
+        }
+        update: {
+          args: Prisma.DemandeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>
+        }
+        deleteMany: {
+          args: Prisma.DemandeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DemandeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DemandeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>[]
+        }
+        upsert: {
+          args: Prisma.DemandeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DemandePayload>
+        }
+        aggregate: {
+          args: Prisma.DemandeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDemande>
+        }
+        groupBy: {
+          args: Prisma.DemandeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DemandeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DemandeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DemandeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -882,6 +957,19 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const DemandeScalarFieldEnum = {
+  id: 'id',
+  vehiculeId: 'vehiculeId',
+  debut_indisponibilite: 'debut_indisponibilite',
+  fin_indisponibilite: 'fin_indisponibilite',
+  chef_mission: 'chef_mission',
+  mission: 'mission',
+  itineraire: 'itineraire'
+} as const
+
+export type DemandeScalarFieldEnum = (typeof DemandeScalarFieldEnum)[keyof typeof DemandeScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1167,6 +1255,7 @@ export type GlobalOmitConfig = {
   chauffeur?: Prisma.ChauffeurOmit
   indisponibilite?: Prisma.IndisponibiliteOmit
   session?: Prisma.SessionOmit
+  demande?: Prisma.DemandeOmit
 }
 
 /* Types for Logging */

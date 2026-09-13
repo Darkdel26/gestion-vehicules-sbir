@@ -183,6 +183,7 @@ export type VehiculeWhereInput = {
   etat?: Prisma.EnumEtatVehiculeFilter<"Vehicule"> | $Enums.EtatVehicule
   bloquage?: Prisma.EnumBloquageVehiculeFilter<"Vehicule"> | $Enums.BloquageVehicule
   indisponibilites?: Prisma.IndisponibiliteListRelationFilter
+  demandes?: Prisma.DemandeListRelationFilter
 }
 
 export type VehiculeOrderByWithRelationInput = {
@@ -192,6 +193,7 @@ export type VehiculeOrderByWithRelationInput = {
   etat?: Prisma.SortOrder
   bloquage?: Prisma.SortOrder
   indisponibilites?: Prisma.IndisponibiliteOrderByRelationAggregateInput
+  demandes?: Prisma.DemandeOrderByRelationAggregateInput
 }
 
 export type VehiculeWhereUniqueInput = Prisma.AtLeast<{
@@ -204,6 +206,7 @@ export type VehiculeWhereUniqueInput = Prisma.AtLeast<{
   etat?: Prisma.EnumEtatVehiculeFilter<"Vehicule"> | $Enums.EtatVehicule
   bloquage?: Prisma.EnumBloquageVehiculeFilter<"Vehicule"> | $Enums.BloquageVehicule
   indisponibilites?: Prisma.IndisponibiliteListRelationFilter
+  demandes?: Prisma.DemandeListRelationFilter
 }, "id" | "matricule">
 
 export type VehiculeOrderByWithAggregationInput = {
@@ -235,6 +238,7 @@ export type VehiculeCreateInput = {
   etat?: $Enums.EtatVehicule
   bloquage?: $Enums.BloquageVehicule
   indisponibilites?: Prisma.IndisponibiliteCreateNestedManyWithoutVehiculeInput
+  demandes?: Prisma.DemandeCreateNestedManyWithoutVehiculeInput
 }
 
 export type VehiculeUncheckedCreateInput = {
@@ -244,6 +248,7 @@ export type VehiculeUncheckedCreateInput = {
   etat?: $Enums.EtatVehicule
   bloquage?: $Enums.BloquageVehicule
   indisponibilites?: Prisma.IndisponibiliteUncheckedCreateNestedManyWithoutVehiculeInput
+  demandes?: Prisma.DemandeUncheckedCreateNestedManyWithoutVehiculeInput
 }
 
 export type VehiculeUpdateInput = {
@@ -253,6 +258,7 @@ export type VehiculeUpdateInput = {
   etat?: Prisma.EnumEtatVehiculeFieldUpdateOperationsInput | $Enums.EtatVehicule
   bloquage?: Prisma.EnumBloquageVehiculeFieldUpdateOperationsInput | $Enums.BloquageVehicule
   indisponibilites?: Prisma.IndisponibiliteUpdateManyWithoutVehiculeNestedInput
+  demandes?: Prisma.DemandeUpdateManyWithoutVehiculeNestedInput
 }
 
 export type VehiculeUncheckedUpdateInput = {
@@ -262,6 +268,7 @@ export type VehiculeUncheckedUpdateInput = {
   etat?: Prisma.EnumEtatVehiculeFieldUpdateOperationsInput | $Enums.EtatVehicule
   bloquage?: Prisma.EnumBloquageVehiculeFieldUpdateOperationsInput | $Enums.BloquageVehicule
   indisponibilites?: Prisma.IndisponibiliteUncheckedUpdateManyWithoutVehiculeNestedInput
+  demandes?: Prisma.DemandeUncheckedUpdateManyWithoutVehiculeNestedInput
 }
 
 export type VehiculeCreateManyInput = {
@@ -339,12 +346,27 @@ export type VehiculeUpdateOneRequiredWithoutIndisponibilitesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VehiculeUpdateToOneWithWhereWithoutIndisponibilitesInput, Prisma.VehiculeUpdateWithoutIndisponibilitesInput>, Prisma.VehiculeUncheckedUpdateWithoutIndisponibilitesInput>
 }
 
+export type VehiculeCreateNestedOneWithoutDemandesInput = {
+  create?: Prisma.XOR<Prisma.VehiculeCreateWithoutDemandesInput, Prisma.VehiculeUncheckedCreateWithoutDemandesInput>
+  connectOrCreate?: Prisma.VehiculeCreateOrConnectWithoutDemandesInput
+  connect?: Prisma.VehiculeWhereUniqueInput
+}
+
+export type VehiculeUpdateOneRequiredWithoutDemandesNestedInput = {
+  create?: Prisma.XOR<Prisma.VehiculeCreateWithoutDemandesInput, Prisma.VehiculeUncheckedCreateWithoutDemandesInput>
+  connectOrCreate?: Prisma.VehiculeCreateOrConnectWithoutDemandesInput
+  upsert?: Prisma.VehiculeUpsertWithoutDemandesInput
+  connect?: Prisma.VehiculeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VehiculeUpdateToOneWithWhereWithoutDemandesInput, Prisma.VehiculeUpdateWithoutDemandesInput>, Prisma.VehiculeUncheckedUpdateWithoutDemandesInput>
+}
+
 export type VehiculeCreateWithoutIndisponibilitesInput = {
   id?: string
   designation: string
   matricule: string
   etat?: $Enums.EtatVehicule
   bloquage?: $Enums.BloquageVehicule
+  demandes?: Prisma.DemandeCreateNestedManyWithoutVehiculeInput
 }
 
 export type VehiculeUncheckedCreateWithoutIndisponibilitesInput = {
@@ -353,6 +375,7 @@ export type VehiculeUncheckedCreateWithoutIndisponibilitesInput = {
   matricule: string
   etat?: $Enums.EtatVehicule
   bloquage?: $Enums.BloquageVehicule
+  demandes?: Prisma.DemandeUncheckedCreateNestedManyWithoutVehiculeInput
 }
 
 export type VehiculeCreateOrConnectWithoutIndisponibilitesInput = {
@@ -377,6 +400,7 @@ export type VehiculeUpdateWithoutIndisponibilitesInput = {
   matricule?: Prisma.StringFieldUpdateOperationsInput | string
   etat?: Prisma.EnumEtatVehiculeFieldUpdateOperationsInput | $Enums.EtatVehicule
   bloquage?: Prisma.EnumBloquageVehiculeFieldUpdateOperationsInput | $Enums.BloquageVehicule
+  demandes?: Prisma.DemandeUpdateManyWithoutVehiculeNestedInput
 }
 
 export type VehiculeUncheckedUpdateWithoutIndisponibilitesInput = {
@@ -385,6 +409,59 @@ export type VehiculeUncheckedUpdateWithoutIndisponibilitesInput = {
   matricule?: Prisma.StringFieldUpdateOperationsInput | string
   etat?: Prisma.EnumEtatVehiculeFieldUpdateOperationsInput | $Enums.EtatVehicule
   bloquage?: Prisma.EnumBloquageVehiculeFieldUpdateOperationsInput | $Enums.BloquageVehicule
+  demandes?: Prisma.DemandeUncheckedUpdateManyWithoutVehiculeNestedInput
+}
+
+export type VehiculeCreateWithoutDemandesInput = {
+  id?: string
+  designation: string
+  matricule: string
+  etat?: $Enums.EtatVehicule
+  bloquage?: $Enums.BloquageVehicule
+  indisponibilites?: Prisma.IndisponibiliteCreateNestedManyWithoutVehiculeInput
+}
+
+export type VehiculeUncheckedCreateWithoutDemandesInput = {
+  id?: string
+  designation: string
+  matricule: string
+  etat?: $Enums.EtatVehicule
+  bloquage?: $Enums.BloquageVehicule
+  indisponibilites?: Prisma.IndisponibiliteUncheckedCreateNestedManyWithoutVehiculeInput
+}
+
+export type VehiculeCreateOrConnectWithoutDemandesInput = {
+  where: Prisma.VehiculeWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehiculeCreateWithoutDemandesInput, Prisma.VehiculeUncheckedCreateWithoutDemandesInput>
+}
+
+export type VehiculeUpsertWithoutDemandesInput = {
+  update: Prisma.XOR<Prisma.VehiculeUpdateWithoutDemandesInput, Prisma.VehiculeUncheckedUpdateWithoutDemandesInput>
+  create: Prisma.XOR<Prisma.VehiculeCreateWithoutDemandesInput, Prisma.VehiculeUncheckedCreateWithoutDemandesInput>
+  where?: Prisma.VehiculeWhereInput
+}
+
+export type VehiculeUpdateToOneWithWhereWithoutDemandesInput = {
+  where?: Prisma.VehiculeWhereInput
+  data: Prisma.XOR<Prisma.VehiculeUpdateWithoutDemandesInput, Prisma.VehiculeUncheckedUpdateWithoutDemandesInput>
+}
+
+export type VehiculeUpdateWithoutDemandesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  matricule?: Prisma.StringFieldUpdateOperationsInput | string
+  etat?: Prisma.EnumEtatVehiculeFieldUpdateOperationsInput | $Enums.EtatVehicule
+  bloquage?: Prisma.EnumBloquageVehiculeFieldUpdateOperationsInput | $Enums.BloquageVehicule
+  indisponibilites?: Prisma.IndisponibiliteUpdateManyWithoutVehiculeNestedInput
+}
+
+export type VehiculeUncheckedUpdateWithoutDemandesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  designation?: Prisma.StringFieldUpdateOperationsInput | string
+  matricule?: Prisma.StringFieldUpdateOperationsInput | string
+  etat?: Prisma.EnumEtatVehiculeFieldUpdateOperationsInput | $Enums.EtatVehicule
+  bloquage?: Prisma.EnumBloquageVehiculeFieldUpdateOperationsInput | $Enums.BloquageVehicule
+  indisponibilites?: Prisma.IndisponibiliteUncheckedUpdateManyWithoutVehiculeNestedInput
 }
 
 
@@ -394,10 +471,12 @@ export type VehiculeUncheckedUpdateWithoutIndisponibilitesInput = {
 
 export type VehiculeCountOutputType = {
   indisponibilites: number
+  demandes: number
 }
 
 export type VehiculeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   indisponibilites?: boolean | VehiculeCountOutputTypeCountIndisponibilitesArgs
+  demandes?: boolean | VehiculeCountOutputTypeCountDemandesArgs
 }
 
 /**
@@ -417,6 +496,13 @@ export type VehiculeCountOutputTypeCountIndisponibilitesArgs<ExtArgs extends run
   where?: Prisma.IndisponibiliteWhereInput
 }
 
+/**
+ * VehiculeCountOutputType without action
+ */
+export type VehiculeCountOutputTypeCountDemandesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DemandeWhereInput
+}
+
 
 export type VehiculeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -425,6 +511,7 @@ export type VehiculeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   etat?: boolean
   bloquage?: boolean
   indisponibilites?: boolean | Prisma.Vehicule$indisponibilitesArgs<ExtArgs>
+  demandes?: boolean | Prisma.Vehicule$demandesArgs<ExtArgs>
   _count?: boolean | Prisma.VehiculeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicule"]>
 
@@ -455,6 +542,7 @@ export type VehiculeSelectScalar = {
 export type VehiculeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "designation" | "matricule" | "etat" | "bloquage", ExtArgs["result"]["vehicule"]>
 export type VehiculeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   indisponibilites?: boolean | Prisma.Vehicule$indisponibilitesArgs<ExtArgs>
+  demandes?: boolean | Prisma.Vehicule$demandesArgs<ExtArgs>
   _count?: boolean | Prisma.VehiculeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VehiculeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -464,6 +552,7 @@ export type $VehiculePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Vehicule"
   objects: {
     indisponibilites: Prisma.$IndisponibilitePayload<ExtArgs>[]
+    demandes: Prisma.$DemandePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -866,6 +955,7 @@ readonly fields: VehiculeFieldRefs;
 export interface Prisma__VehiculeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   indisponibilites<T extends Prisma.Vehicule$indisponibilitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicule$indisponibilitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IndisponibilitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  demandes<T extends Prisma.Vehicule$demandesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicule$demandesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DemandePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1314,6 +1404,30 @@ export type Vehicule$indisponibilitesArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.IndisponibiliteScalarFieldEnum | Prisma.IndisponibiliteScalarFieldEnum[]
+}
+
+/**
+ * Vehicule.demandes
+ */
+export type Vehicule$demandesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Demande
+   */
+  select?: Prisma.DemandeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Demande
+   */
+  omit?: Prisma.DemandeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DemandeInclude<ExtArgs> | null
+  where?: Prisma.DemandeWhereInput
+  orderBy?: Prisma.DemandeOrderByWithRelationInput | Prisma.DemandeOrderByWithRelationInput[]
+  cursor?: Prisma.DemandeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DemandeScalarFieldEnum | Prisma.DemandeScalarFieldEnum[]
 }
 
 /**

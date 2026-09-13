@@ -66,3 +66,8 @@ export type Indisponibilite = Prisma.IndisponibiliteModel
  * 
  */
 export type Session = Prisma.SessionModel
+/**
+ * Model Demande
+ * 
+ */
+export type Demande = Prisma.DemandeModel

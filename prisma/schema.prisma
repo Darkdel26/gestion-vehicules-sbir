@@ -42,6 +42,8 @@ model Vehicule {
     etat             EtatVehicule      @default(Disponible)
     bloquage         BloquageVehicule  @default(Non)
     indisponibilites Indisponibilite[]
+
+    demandes Demande[]
 }
 
 model Chauffeur {
@@ -72,4 +74,17 @@ model Session {
     adminId   String
     expiresAt DateTime
     admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
+
+model Demande {
+    id                  String   @id @default(cuid())
+    vehiculeId            String
+
+    debut_indisponibilite DateTime
+    fin_indisponibilite   DateTime
+    chef_mission          String?
+    mission               String
+    itineraire            String
+
+    vehicule Vehicule @relation(fields: [vehiculeId], references: [id], onDelete: Cascade)
 }

@@ -55,7 +55,8 @@ export const ModelName = {
   Vehicule: 'Vehicule',
   Chauffeur: 'Chauffeur',
   Indisponibilite: 'Indisponibilite',
-  Session: 'Session'
+  Session: 'Session',
+  Demande: 'Demande'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -126,6 +127,19 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const DemandeScalarFieldEnum = {
+  id: 'id',
+  vehiculeId: 'vehiculeId',
+  debut_indisponibilite: 'debut_indisponibilite',
+  fin_indisponibilite: 'fin_indisponibilite',
+  chef_mission: 'chef_mission',
+  mission: 'mission',
+  itineraire: 'itineraire'
+} as const
+
+export type DemandeScalarFieldEnum = (typeof DemandeScalarFieldEnum)[keyof typeof DemandeScalarFieldEnum]
 
 
 export const SortOrder = {
